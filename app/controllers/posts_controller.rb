@@ -9,9 +9,7 @@ class PostsController < ApplicationController
    @post = Post.new(post_params)
    @post.user = current_user
    @post.save
-
-    redirect_to posts_path
-   end
+  end
 
    def destroy
      @post = current_user.posts.find(params[:id]) # 只能删除自己的贴文
