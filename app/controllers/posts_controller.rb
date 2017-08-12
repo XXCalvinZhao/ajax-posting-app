@@ -63,6 +63,23 @@ class PostsController < ApplicationController
     render "like"
   end
 
+    def collect
+    @post = Post.find(params[:id])
+    unless @post.find_collect(current_user)  # 如果已经按讚过了，就略过不再新增
+      Collect.create( :user => current_user, :post => @post)
+    end
+
+    redirect_to posts_path
+  end
+
+  def uncollect
+    @post = Post.find(params[:id])
+    collect = @post.find_collect(current_user)
+    collect.destroy
+
+    redirect_to posts_path
+  end
+
   def toggle_flag
     @post = Post.find(params[:id])
 

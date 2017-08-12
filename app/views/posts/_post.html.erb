@@ -9,6 +9,20 @@
 
     <%= post.content %>
 
+        <div class="text-right">
+
+      <% if post.collected_users.any? %>
+        <%= post.collected_users.map{ |u| u.display_name }.join(",") %> 收藏了
+      <% end %>
+
+      <% if current_user # 有登入才可以按讚 %>
+        <% if post.find_collect(current_user) %>
+          <%= link_to "取消收藏", uncollect_post_path(post), :method => :post, :class => "btn btn-primary" %>
+        <% else %>
+          <%= link_to "收藏", collect_post_path(post), :method => :post, :class => "btn btn-primary" %>
+        <% end %>
+      <% end %>
+
       <div class="text-right">
 
     <span id="post-like-<%= post.id %>">
@@ -20,6 +34,7 @@
         <%= link_to "Delete", post_path(post), :class => "delete-post btn btn-danger" %>
       </p>
     <% end %>
+  </div>
   </div>
   </div>
 </div>
